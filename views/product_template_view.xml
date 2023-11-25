@@ -1,0 +1,41 @@
+```xml
+<odoo>
+    <data>
+        <!-- Extend product.template form view -->
+        <record id="view_product_template_form_inherit" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <!-- Add main_image_url field after image_1920 -->
+                <xpath expr="//field[@name='image_1920']" position="after">
+                    <field name="main_image_url" placeholder="Enter main image URL"/>
+                </xpath>
+                <!-- Add extra_media_urls field after description -->
+                <xpath expr="//field[@name='description']" position="after">
+                    <field name="extra_media_urls" placeholder="Enter extra media URLs (comma-separated)"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Extend product.template kanban view -->
+        <record id="view_product_template_kanban_inherit" model="ir.ui.view">
+            <field name="name">product.template.kanban.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <!-- Replace image_1920 with main_image_url -->
+                <xpath expr="//img[@name='image_1920']" position="replace">
+                    <img t-att-src="record.main_image_url.value" class="product-main-image"/>
+                </xpath>
+                <!-- Add extra_media_urls after main_image_url -->
+                <xpath expr="//img[@name='main_image_url']" position="after">
+                    <t t-foreach="record.extra_media_urls.value.split(',')" t-as="url">
+                        <img t-att-src="url" class="product-extra-media"/>
+                    </t>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+```

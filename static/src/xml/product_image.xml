@@ -1,0 +1,10 @@
+<t t-name="product_image">
+    <div class="product-main-image">
+        <img t-att-src="main_image_url" alt="Main Product Image"/>
+    </div>
+    <div class="product-extra-media">
+        <t t-foreach="extra_media_urls" t-as="url">
+            <img t-att-src="url" alt="Extra Product Media"/>
+        </t>
+    </div>
+</t>
